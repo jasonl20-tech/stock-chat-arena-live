@@ -13,7 +13,10 @@ export const WatchlistButton: React.FC<WatchlistButtonProps> = ({
 }) => {
   return (
     <Button
-      onClick={onToggle}
+      onClick={(e) => {
+        e.stopPropagation();
+        onToggle();
+      }}
       variant={isInWatchlist ? "default" : "outline"}
       size="sm"
       className={`transition-all duration-300 ${
@@ -22,7 +25,7 @@ export const WatchlistButton: React.FC<WatchlistButtonProps> = ({
           : 'border-white/20 text-white hover:bg-white/10'
       }`}
     >
-      {isInWatchlist ? '✓ In Watchlist' : '+ Add to Watchlist'}
+      {isInWatchlist ? '✓ Auf Watchlist' : '+ Zu Watchlist'}
     </Button>
   );
 };

@@ -1,7 +1,7 @@
 
 import { StockData } from '../types/stock';
 
-// Mock data für beliebte Aktien - in der realen App würden wir APIs verwenden
+// Mock data für beliebte Aktien - erweitert mit mehr deutschen und internationalen Aktien
 export const generateMockChartData = (basePrice: number, days: number = 30) => {
   const data = [];
   let currentPrice = basePrice;
@@ -26,6 +26,7 @@ export const generateMockChartData = (basePrice: number, days: number = 30) => {
 };
 
 export const mockStocks: StockData[] = [
+  // US Tech Giants
   {
     symbol: 'AAPL',
     name: 'Apple Inc.',
@@ -37,7 +38,7 @@ export const mockStocks: StockData[] = [
     previousClose: 187.45,
     dayHigh: 191.23,
     dayLow: 186.78,
-    sector: 'Technology',
+    sector: 'Technologie',
     chartData: generateMockChartData(189.79),
     lastUpdated: new Date()
   },
@@ -52,7 +53,7 @@ export const mockStocks: StockData[] = [
     previousClose: 143.79,
     dayHigh: 144.12,
     dayLow: 141.89,
-    sector: 'Technology',
+    sector: 'Technologie',
     chartData: generateMockChartData(142.56),
     lastUpdated: new Date()
   },
@@ -67,7 +68,7 @@ export const mockStocks: StockData[] = [
     previousClose: 373.24,
     dayHigh: 380.45,
     dayLow: 375.12,
-    sector: 'Technology',
+    sector: 'Technologie',
     chartData: generateMockChartData(378.91),
     lastUpdated: new Date()
   },
@@ -82,7 +83,7 @@ export const mockStocks: StockData[] = [
     previousClose: 156.27,
     dayHigh: 157.23,
     dayLow: 152.45,
-    sector: 'Consumer Discretionary',
+    sector: 'Einzelhandel',
     chartData: generateMockChartData(153.38),
     lastUpdated: new Date()
   },
@@ -97,7 +98,7 @@ export const mockStocks: StockData[] = [
     previousClose: 236.28,
     dayHigh: 251.89,
     dayLow: 243.12,
-    sector: 'Consumer Discretionary',
+    sector: 'Automobilindustrie',
     chartData: generateMockChartData(248.73),
     lastUpdated: new Date()
   },
@@ -112,7 +113,7 @@ export const mockStocks: StockData[] = [
     previousClose: 469.32,
     dayHigh: 482.67,
     dayLow: 471.45,
-    sector: 'Technology',
+    sector: 'Halbleiter',
     chartData: generateMockChartData(478.23),
     lastUpdated: new Date()
   },
@@ -127,7 +128,7 @@ export const mockStocks: StockData[] = [
     previousClose: 339.10,
     dayHigh: 341.23,
     dayLow: 332.45,
-    sector: 'Technology',
+    sector: 'Social Media',
     chartData: generateMockChartData(334.87),
     lastUpdated: new Date()
   },
@@ -142,11 +143,12 @@ export const mockStocks: StockData[] = [
     previousClose: 437.78,
     dayHigh: 448.23,
     dayLow: 442.12,
-    sector: 'Communication Services',
+    sector: 'Streaming',
     chartData: generateMockChartData(445.67),
     lastUpdated: new Date()
   },
-  // Deutsche Aktien
+
+  // Deutsche Aktien (DAX)
   {
     symbol: 'SAP',
     name: 'SAP SE',
@@ -158,7 +160,7 @@ export const mockStocks: StockData[] = [
     previousClose: 133.26,
     dayHigh: 136.45,
     dayLow: 132.78,
-    sector: 'Technology',
+    sector: 'Software',
     chartData: generateMockChartData(134.82),
     lastUpdated: new Date()
   },
@@ -173,11 +175,87 @@ export const mockStocks: StockData[] = [
     previousClose: 701.79,
     dayHigh: 695.23,
     dayLow: 684.12,
-    sector: 'Technology',
+    sector: 'Halbleiter',
     chartData: generateMockChartData(689.45),
     lastUpdated: new Date()
   },
-  // Weitere beliebte Aktien
+  {
+    symbol: 'SIE',
+    name: 'Siemens AG',
+    price: 156.24,
+    change: 3.12,
+    changePercent: 2.04,
+    volume: 15432890,
+    marketCap: 125000000000,
+    previousClose: 153.12,
+    dayHigh: 158.90,
+    dayLow: 154.23,
+    sector: 'Industrietechnik',
+    chartData: generateMockChartData(156.24),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'BMW',
+    name: 'Bayerische Motoren Werke AG',
+    price: 89.45,
+    change: -1.23,
+    changePercent: -1.36,
+    volume: 18765432,
+    marketCap: 58000000000,
+    previousClose: 90.68,
+    dayHigh: 91.23,
+    dayLow: 88.45,
+    sector: 'Automobilindustrie',
+    chartData: generateMockChartData(89.45),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'MBG',
+    name: 'Mercedes-Benz Group AG',
+    price: 67.89,
+    change: 0.89,
+    changePercent: 1.33,
+    volume: 22345678,
+    marketCap: 72000000000,
+    previousClose: 67.00,
+    dayHigh: 68.45,
+    dayLow: 66.78,
+    sector: 'Automobilindustrie',
+    chartData: generateMockChartData(67.89),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'ALV',
+    name: 'Allianz SE',
+    price: 245.60,
+    change: 2.40,
+    changePercent: 0.99,
+    volume: 9876543,
+    marketCap: 98000000000,
+    previousClose: 243.20,
+    dayHigh: 247.80,
+    dayLow: 242.90,
+    sector: 'Versicherung',
+    chartData: generateMockChartData(245.60),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'BAS',
+    name: 'BASF SE',
+    price: 43.21,
+    change: -0.67,
+    changePercent: -1.53,
+    volume: 14567890,
+    marketCap: 39000000000,
+    previousClose: 43.88,
+    dayHigh: 44.12,
+    dayLow: 42.89,
+    sector: 'Chemie',
+    chartData: generateMockChartData(43.21),
+    lastUpdated: new Date()
+  },
+
+  // Weitere internationale Top-Aktien
   {
     symbol: 'JPM',
     name: 'JPMorgan Chase & Co.',
@@ -189,7 +267,7 @@ export const mockStocks: StockData[] = [
     previousClose: 175.89,
     dayHigh: 179.67,
     dayLow: 176.23,
-    sector: 'Financial Services',
+    sector: 'Finanzdienstleistungen',
     chartData: generateMockChartData(178.34),
     lastUpdated: new Date()
   },
@@ -204,8 +282,113 @@ export const mockStocks: StockData[] = [
     previousClose: 163.67,
     dayHigh: 164.23,
     dayLow: 161.45,
-    sector: 'Healthcare',
+    sector: 'Gesundheitswesen',
     chartData: generateMockChartData(162.78),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'KO',
+    name: 'The Coca-Cola Company',
+    price: 58.92,
+    change: 0.34,
+    changePercent: 0.58,
+    volume: 21098765,
+    marketCap: 254000000000,
+    previousClose: 58.58,
+    dayHigh: 59.45,
+    dayLow: 58.21,
+    sector: 'Getränke',
+    chartData: generateMockChartData(58.92),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'PFE',
+    name: 'Pfizer Inc.',
+    price: 25.67,
+    change: 0.89,
+    changePercent: 3.59,
+    volume: 45678901,
+    marketCap: 144000000000,
+    previousClose: 24.78,
+    dayHigh: 26.12,
+    dayLow: 25.23,
+    sector: 'Pharma',
+    chartData: generateMockChartData(25.67),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'DIS',
+    name: 'The Walt Disney Company',
+    price: 96.45,
+    change: -1.23,
+    changePercent: -1.26,
+    volume: 18765432,
+    marketCap: 176000000000,
+    previousClose: 97.68,
+    dayHigh: 98.90,
+    dayLow: 95.23,
+    sector: 'Entertainment',
+    chartData: generateMockChartData(96.45),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'V',
+    name: 'Visa Inc.',
+    price: 264.78,
+    change: 3.45,
+    changePercent: 1.32,
+    volume: 12345678,
+    marketCap: 540000000000,
+    previousClose: 261.33,
+    dayHigh: 266.90,
+    dayLow: 262.45,
+    sector: 'Fintech',
+    chartData: generateMockChartData(264.78),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'ADBE',
+    name: 'Adobe Inc.',
+    price: 497.23,
+    change: 8.90,
+    changePercent: 1.82,
+    volume: 8765432,
+    marketCap: 225000000000,
+    previousClose: 488.33,
+    dayHigh: 501.45,
+    dayLow: 494.67,
+    sector: 'Software',
+    chartData: generateMockChartData(497.23),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'CRM',
+    name: 'Salesforce Inc.',
+    price: 218.45,
+    change: -2.34,
+    changePercent: -1.06,
+    volume: 15432109,
+    marketCap: 211000000000,
+    previousClose: 220.79,
+    dayHigh: 222.90,
+    dayLow: 216.78,
+    sector: 'Cloud-Software',
+    chartData: generateMockChartData(218.45),
+    lastUpdated: new Date()
+  },
+  {
+    symbol: 'PYPL',
+    name: 'PayPal Holdings Inc.',
+    price: 56.78,
+    change: 1.89,
+    changePercent: 3.44,
+    volume: 23456789,
+    marketCap: 65000000000,
+    previousClose: 54.89,
+    dayHigh: 57.90,
+    dayLow: 55.67,
+    sector: 'Fintech',
+    chartData: generateMockChartData(56.78),
     lastUpdated: new Date()
   }
 ];
