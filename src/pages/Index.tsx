@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
@@ -321,9 +320,7 @@ const Index = () => {
                         >
                           Weiter
                         </PaginationNext>
-                      </P
-
-aginationItem>
+                      </PaginationItem>
                     )}
                   </PaginationContent>
                 </Pagination>

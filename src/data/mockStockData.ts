@@ -1,4 +1,3 @@
-
 import { StockData } from '../types/stock';
 
 // Mock data für beliebte Aktien - erweitert mit mehr deutschen und internationalen Aktien
@@ -839,7 +838,7 @@ export const mockStocks: StockData[] = [
     change: 6.78,
     changePercent: 1.51,
     volume: 7890123,
-    market Cap: 432000000000,
+    marketCap: 432000000000,
     previousClose: 450.00,
     dayHigh: 459.90,
     dayLow: 454.23,
