@@ -2,13 +2,24 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
+import { HeroSection } from '../components/HeroSection';
 import { MarketOverview } from '../components/MarketOverview';
 import { StockCard } from '../components/StockCard';
 import { WatchlistButton } from '../components/WatchlistButton';
 import { Button } from '@/components/ui/button';
+import { 
+  Pagination, 
+  PaginationContent, 
+  PaginationItem, 
+  PaginationLink, 
+  PaginationNext, 
+  PaginationPrevious 
+} from '@/components/ui/pagination';
 import { useStockData } from '../hooks/useStockData';
 import { useWatchlist } from '../hooks/useWatchlist';
 import { StockData } from '../types/stock';
+
+const STOCKS_PER_PAGE = 50;
 
 const Index = () => {
   const navigate = useNavigate();
@@ -17,6 +28,7 @@ const Index = () => {
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
   const [filter, setFilter] = useState<'all' | 'gainers' | 'losers' | 'watchlist'>('all');
   const [sortBy, setSortBy] = useState<'price' | 'change' | 'volume'>('change');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredAndSortedStocks = useMemo(() => {
     let filtered = [...stocks];
@@ -52,8 +64,24 @@ const Index = () => {
     return filtered;
   }, [stocks, filter, sortBy, getWatchlistSymbols]);
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredAndSortedStocks.length / STOCKS_PER_PAGE);
+  const startIndex = (currentPage - 1) * STOCKS_PER_PAGE;
+  const endIndex = startIndex + STOCKS_PER_PAGE;
+  const currentStocks = filteredAndSortedStocks.slice(startIndex, endIndex);
+
+  // Reset to page 1 when filters change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [filter, sortBy]);
+
   const handleStockSelect = (stock: StockData) => {
     navigate(`/stock/${stock.symbol}`);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (error) {
@@ -74,17 +102,12 @@ const Index = () => {
     <div className="min-h-screen bg-trading-gradient">
       <Header stocks={stocks} onStockSelect={handleStockSelect} />
       
+      {/* Hero Section */}
+      <HeroSection stocks={stocks} />
+      
       <main className="container mx-auto px-4 py-8">
         {/* Market Overview */}
         <MarketOverview stocks={stocks} />
-
-        {/* Title */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Top-Aktien</h1>
-          <p className="text-muted-foreground">
-            Live-Kurse der beliebtesten Aktien • Updates alle 5 Sekunden
-          </p>
-        </div>
 
         {/* Controls */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
@@ -195,10 +218,18 @@ const Index = () => {
           </Button>
         </div>
 
-        {/* Results Counter */}
-        <div className="mb-6">
+        {/* Results Counter & Pagination Info */}
+        <div className="flex items-center justify-between mb-6">
           <p className="text-sm text-muted-foreground">
-            {filteredAndSortedStocks.length} von {stocks.length} Aktien werden angezeigt
+            {filteredAndSortedStocks.length} von {stocks.length} Aktien gefunden
+            {totalPages > 1 && (
+              <span className="ml-2">
+                • Seite {currentPage} von {totalPages}
+              </span>
+            )}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Zeige {startIndex + 1}-{Math.min(endIndex, filteredAndSortedStocks.length)} von {filteredAndSortedStocks.length}
           </p>
         </div>
 
@@ -217,23 +248,88 @@ const Index = () => {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredAndSortedStocks.map((stock) => (
-              <div key={stock.symbol} className="relative">
-                <StockCard
-                  stock={stock}
-                  onClick={() => handleStockSelect(stock)}
-                  isInWatchlist={isInWatchlist(stock.symbol)}
-                />
-                <div className="absolute top-4 right-4">
-                  <WatchlistButton
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {currentStocks.map((stock) => (
+                <div key={stock.symbol} className="relative">
+                  <StockCard
+                    stock={stock}
+                    onClick={() => handleStockSelect(stock)}
                     isInWatchlist={isInWatchlist(stock.symbol)}
-                    onToggle={() => toggleWatchlist(stock.symbol)}
                   />
+                  <div className="absolute top-4 right-4">
+                    <WatchlistButton
+                      isInWatchlist={isInWatchlist(stock.symbol)}
+                      onToggle={() => toggleWatchlist(stock.symbol)}
+                    />
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-12 flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    {currentPage > 1 && (
+                      <PaginationItem>
+                        <PaginationPrevious 
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          className="border-white/20 text-white hover:bg-white/10 cursor-pointer"
+                        >
+                          Zurück
+                        </PaginationPrevious>
+                      </PaginationItem>
+                    )}
+                    
+                    {/* Page Numbers */}
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNumber;
+                      if (totalPages <= 5) {
+                        pageNumber = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNumber = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNumber = totalPages - 4 + i;
+                      } else {
+                        pageNumber = currentPage - 2 + i;
+                      }
+                      
+                      return (
+                        <PaginationItem key={pageNumber}>
+                          <PaginationLink
+                            onClick={() => handlePageChange(pageNumber)}
+                            isActive={currentPage === pageNumber}
+                            className={`cursor-pointer ${
+                              currentPage === pageNumber
+                                ? 'bg-trading-green text-black hover:bg-trading-green/80'
+                                : 'border-white/20 text-white hover:bg-white/10'
+                            }`}
+                          >
+                            {pageNumber}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    })}
+
+                    {currentPage < totalPages && (
+                      <PaginationItem>
+                        <PaginationNext 
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          className="border-white/20 text-white hover:bg-white/10 cursor-pointer"
+                        >
+                          Weiter
+                        </PaginationNext>
+                      </P
+
+aginationItem>
+                    )}
+                  </PaginationContent>
+                </Pagination>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
 
         {/* Footer */}
