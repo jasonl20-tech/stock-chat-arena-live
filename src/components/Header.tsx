@@ -16,10 +16,10 @@ export const Header: React.FC<HeaderProps> = ({ stocks, onStockSelect }) => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-trading-green to-trading-blue rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-sm">S</span>
+                <span className="text-black font-bold text-sm">T</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold gradient-text">StockTracker Pro</h1>
+                <h1 className="text-xl font-bold gradient-text">Top-Aktien</h1>
                 <p className="text-xs text-muted-foreground">Live Market Data</p>
               </div>
             </div>
